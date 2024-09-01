@@ -6,7 +6,7 @@ class RepositoryViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorText: String?
 
-    private var api = GitHubAPI()
+    private var gitHubClient = GitHubClient()
 
     @MainActor
     func search() async {
@@ -15,7 +15,7 @@ class RepositoryViewModel: ObservableObject {
         errorText = nil
         
         do {
-            let repositories = try await api.searchRepositories(query: searchQuery)
+            let repositories = try await gitHubClient.searchRepositories(query: searchQuery)
             self.repositories = repositories
             print(repositories.count)
             isLoading = false
